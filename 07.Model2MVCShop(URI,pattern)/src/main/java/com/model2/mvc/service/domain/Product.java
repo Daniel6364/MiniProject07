@@ -1,6 +1,9 @@
 package com.model2.mvc.service.domain;
 
 import java.sql.Date;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class Product {
 	
@@ -12,6 +15,11 @@ public class Product {
 	private int prodNo;
 	private Date regDate;
 	private String proTranCode;
+	
+	// SpringFramework FileUpload
+	private List<MultipartFile> files;
+	private String upDir;
+	
 	
 	public Product(){
 	}
@@ -77,13 +85,32 @@ public class Product {
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}
-
-	// Override
-	public String toString() {
-		return "ProductVO : [fileName]" + fileName
-				+ "[manuDate]" + manuDate+ "[price]" + price + "[prodDetail]" + prodDetail
-				+ "[prodName]" + prodName + "[prodNo]" + prodNo;
+	
+	// Spring Framework FileUpload ¸¦ À§ÇÑ Getter/Setter Method
+	public List<MultipartFile> getFiles() {
+		return files;
+	}
+	
+	public void setFiles(List<MultipartFile> files) {
+		this.files = files;
+	}
+	
+	public String getUpDir() {
+		return upDir;
+	}
+	
+	public void setUpDir(String upDir) {
+		this.upDir = upDir;
 	}	
+	
+
+	@Override
+	public String toString() {
+		return "ProductVO [fileName=" + fileName + ", manuDate=" + manuDate + ", price=" + price + ", prodDetail="
+				+ prodDetail + ", prodName=" + prodName + ", prodNo=" + prodNo + ", regDate=" + regDate
+				+ ", proTranCode=" + proTranCode + ", files=" + files + ", upDir=" + upDir + "]";
+	}
+
 	
 	
 	

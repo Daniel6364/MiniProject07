@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
@@ -60,10 +62,12 @@ public class ProductController {
 		return "redirect:/product/addProductView.jsp";
 	}
 
+	// FileUpload 1.
+	/*
 	@RequestMapping( value="addProduct", method=RequestMethod.POST )
 	public String addProduct( @ModelAttribute("product") Product product, 
-//			@RequestParam("manuDate") String manuDate,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
+			HttpServletRequest request, HttpServletResponse response, 
+			Model model) throws Exception {
 
 		System.out.println("/product/addProduct : POST");
 
@@ -134,6 +138,37 @@ public class ProductController {
 		} else {
 			System.out.println("인코딩 타입이 multipart/form-data가 아닙니다.");
 		}
+*/		
+		
+		//Business Logic
+//		product.setManuDate(manuDate.replace("-", ""));
+//		productService.addProduct(product);
+		
+//		return "forward:/product/addProduct.jsp";
+//		return "forward:/product/getProduct.jsp";
+//	}
+	
+	
+	
+	// FileUpload 2.
+	@RequestMapping( value="addProduct", method=RequestMethod.POST )
+	public String addProduct( @ModelAttribute("product") Product product, 
+			MultipartHttpServletRequest mRequest, 
+			Model model) throws Exception {
+
+		System.out.println("/product/addProduct : POST");
+
+		// SpringFramework FileUpload
+		String temDir = "C:\\Users\\bitcamp\\git\\MiniProject07\\07.Model2MVCShop(URI,pattern)\\WebContent\\images\\uploadFiles";
+		File dir = new File(temDir);
+		if (!dir.isDirectory()) {
+			dir.mkdirs();
+		}
+		
+		MultipartFile multipartFile = mRequest.getFile("fileName");
+		if (!multipartFile.isEmpty()) {
+			File file = new File(temDir, multipartFile.getOriginalFilename());
+		}
 		
 		
 		
@@ -143,7 +178,10 @@ public class ProductController {
 		
 //		return "forward:/product/addProduct.jsp";
 		return "forward:/product/getProduct.jsp";
-	}
+	}	
+	
+	
+	
 	
 	@RequestMapping( value="getProduct", method=RequestMethod.GET)
 	public String getProduct( @RequestParam("prodNo") String prodNo , Model model, 
