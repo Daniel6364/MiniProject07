@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ProductMapper">
+
+	<resultMap id="productSelectMap" type="com.model2.mvc.service.domain.Product">
+		<result property="prodNo" 			column="prod_no" 		 jdbcType="NUMERIC"/>
+		<result property="prodName" 		column="prod_name" 		 jdbcType="VARCHAR"/>
+		<result property="prodDetail" 		column="prod_detail"	 jdbcType="VARCHAR"/>
+		<result property="manuDate" 		column="manufacture_day" jdbcType="VARCHAR"/>
+		<result property="price" 			column="price" 			 jdbcType="NUMERIC"/>
+		<result property="fileName" 		column="image_file" 	 jdbcType="VARCHAR"/>
+		<result property="regDate"		 	column="reg_date" 		 jdbcType="DATE"/>
+		<result property="proTranCode"		column="tran_status_code" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- com.model2.mvc.service.domain.Product AS product use -->
+	<insert id="addProduct" parameterType="product">
+		INSERT
+		INTO product (prod_no, prod_name, 
+					  prod_detail, manufacture_day,	
+					  price, image_file, reg_date)
+		VALUES (seq_product_prod_no.NEXTVAL, #{prodName}, 
+				#{prodDetail}, #{manuDate}, 
+				#{price}, #{fileName}, SYSDATE)
+	</insert>
+
+	<select id="getProduct" parameterType="string" resultMap="productSelectMap">
+		SELECT
+		prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date
+		FROM product
+		WHERE prod_no = #{value}
+	</select>
+
+	<update id="updateProduct" parameterType="com.model2.mvc.service.domain.Product">
+		UPDATE product
+		<set>
+			<if test="prodName != null">prod_name = #{prodName},</if>
+			prod_detail = #{prodDetail:VARCHAR},
+			manufacture_day = #{manuDate:VARCHAR},
+			price = #{price:NUMERIC},
+			image_file = #{fileName:VARCHAR}
+		</set>
+		WHERE prod_no = #{prodNo}
+	</update>
+
+	<delete id="removeProduct" parameterType="string">
+		DELETE
+		FROM product
+		WHERE prod_no = #{value}
+	</delete>
+ 	
+	<sql id="select-productList">
+		SELECT
+		p.prod_no, p.prod_name, p.prod_detail, p.manufacture_day, 
+		p.price, p.image_file, p.reg_date, t.tran_status_code
+		FROM product p
+		LEFT JOIN transaction t ON t.prod_no = p.prod_no
+	</sql>
+
+	<select id="getProductList" parameterType="com.model2.mvc.common.Search" resultMap="productSelectMap">
+		SELECT *
+		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
+		FROM ( 
+	<include refid="select-productList" />
+	<where>
+		<if test="searchCondition != null">
+			<if test="searchCondition == 0 and searchKeyword != '' ">
+				p.prod_no LIKE '%${searchKeyword}%'
+			</if>
+			<if test="searchCondition == 1 and searchKeyword != '' ">
+				p.prod_name LIKE '%${searchKeyword}%'
+			</if>
+			<if test="searchCondition == 2 and searchKeyword != '' ">
+				p.price LIKE '%${searchKeyword}%'
+			</if>
+		</if>
+	</where>
+		
+	<if test="searchPrice !=null">
+		<if test="searchPrice =='lowPrice' ">
+			ORDER BY p.price ASC			
+		</if>
+			
+		<if test="searchPrice =='highPrice' ">
+			ORDER BY p.price DESC
+		</if>			
+	</if>
+	
+	<if test="searchPrice == null">
+		ORDER BY p.prod_no
+	</if>
+		
+		) inner_table
+		WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND
+		#{endRowNum}
+	
+	</select>
+	
+	<!-- SQL : SELECT ROW Count -->
+	<select id="getTotalCount" parameterType="search" resultType="int">
+		SELECT COUNT(*)
+		FROM( SELECT prod_no , prod_name , price
+		FROM product
+		<if test="searchCondition != null">
+			<where>
+				<if test="searchCondition == 0 and searchKeyword !='' ">
+					prod_no = #{searchKeyword}
+				</if>
+				<if test="searchCondition == 1 and searchKeyword !='' ">
+					prod_name = #{searchKeyword}
+				</if>
+				<if test="searchCondition == 2 and searchKeyword !='' ">
+					price = #{searchKeyword}
+				</if>
+			</where>
+		</if>
+		) countTable
+	</select>
+
+</mapper>

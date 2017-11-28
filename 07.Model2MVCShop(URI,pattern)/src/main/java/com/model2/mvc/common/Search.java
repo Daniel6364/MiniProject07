@@ -16,6 +16,10 @@ public class Search {
 	private int endRowNum;
 	private int startRowNum;
 	
+	/// Price Search 를 위한 Field 설정
+	private String searchPrice;
+	
+	
 	///Constructor
 	public Search() {
 	}
@@ -63,6 +67,15 @@ public class Search {
 		return "Search [currentPage=" + currentPage + ", searchCondition="
 				+ searchCondition + ", searchKeyword=" + searchKeyword
 				+ ", pageSize=" + pageSize + ", endRowNum=" + endRowNum
-				+ ", startRowNum=" + startRowNum + "]";
+				+ ", startRowNum=" + startRowNum + ", searchPrice=" + searchPrice + "]";
 	}
+	
+	public String getSearchPrice() {
+		return searchPrice;
+	}
+
+	public void setSearchPrice(String searchPrice) {
+		this.searchPrice = searchPrice;
+	}
+	
 }
