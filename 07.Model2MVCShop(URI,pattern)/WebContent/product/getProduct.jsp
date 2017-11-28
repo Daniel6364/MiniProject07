@@ -66,7 +66,12 @@
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			${ product.fileName }
+		<c:if test = "${ product.fileName == null }">
+			<img src="http://placehold.it/300X300" />
+		</c:if>
+		<c:if test = "${ product.fileName != null }">
+			<img src="/images/uploadFiles/${ product.fileName }" width="300" height="300"/><br/>
+		</c:if>
 		</td>
 	</tr>
 	<tr>

@@ -66,12 +66,11 @@
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<img src = "/images/uploadFiles/../../images/empty.GIF"/> 
-		</td>
-	</tr>
-	<tr>
+			<img src = "/images/uploadFiles/${ product.fileName }"/> 
 		<td height="1" colspan="3" bgcolor="D6D6D6">${ product.fileName }</td>
 	</tr>
+	
+	
 	<tr>
 		<td width="104" class="ct_write">
 			상품상세정보 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
