@@ -62,7 +62,7 @@ public class PurchaseController {
 	
 	
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/*
+	///*
 	// String type
 	@RequestMapping( value="addPurchase", method=RequestMethod.GET)
 	public String addPurchase(@ModelAttribute("product") Product product,
@@ -200,7 +200,7 @@ public class PurchaseController {
 	
 	
 	
-///*
+/*
 	// ModelAndView type
 		@RequestMapping( value="addPurchase", method=RequestMethod.GET)
 		public ModelAndView addPurchase(@ModelAttribute("product") Product product,

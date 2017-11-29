@@ -63,7 +63,7 @@ public class ProductController {
 	}
 
 	// FileUpload 1.
-	///*
+	/*
 	@RequestMapping( value="addProduct", method=RequestMethod.POST )
 	public String addProduct( @ModelAttribute("product") Product product, 
 			HttpServletRequest request, HttpServletResponse response, 
@@ -144,13 +144,11 @@ public class ProductController {
 //*/		
 	
 	
-	/*
+	///*
 	// FileUpload 2.
 	@RequestMapping( value="addProduct", method=RequestMethod.POST )
 	public String addProduct( @ModelAttribute("product") Product product, 
 			MultipartHttpServletRequest mRequest, MultipartFile multipartFile,
-			HttpServletRequest request, HttpServletResponse response, 
-			
 			Model model) throws Exception {
 
 		System.out.println("/product/addProduct : POST");
@@ -158,30 +156,22 @@ public class ProductController {
 		// SpringFramework FileUpload
 		String temDir = "C:\\Users\\bitcamp\\git\\MiniProject07\\07.Model2MVCShop(URI,pattern)\\WebContent\\images\\uploadFiles";
 			
-		multipartFile = request.getFile("fileName");
+		multipartFile = mRequest.getFile("fileNames");
 
 		if (!multipartFile.isEmpty()) {
 			System.out.println("[multipartFile check in if loop]");
 			System.out.println(multipartFile.toString());
 			
-//			File file = new File(temDir, multipartFile.getOriginalFilename());
+		File file = new File(temDir, multipartFile.getOriginalFilename());
+		
+		multipartFile.transferTo(file);
+		product.setFileName(multipartFile.getOriginalFilename());
+			
 		}
 		
-		
-//		File dir = new File(temDir);
-//		if (!dir.isDirectory()) {
-//			dir.mkdirs();
-//		}
-		
-		
-		
-		
-		//Business Logic
-//		product.setManuDate(manuDate.replace("-", ""));
 		productService.addProduct(product);
 		
-		return "forward:/product/addProduct.jsp";
-//		return "forward:/product/getProduct.jsp";
+		return "forward:/product/getProduct.jsp";
 	}	
 //*/	
 	

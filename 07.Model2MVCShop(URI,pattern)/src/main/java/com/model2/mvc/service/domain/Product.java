@@ -17,7 +17,7 @@ public class Product {
 	private String proTranCode;
 	
 	// SpringFramework FileUpload
-	private List<MultipartFile> files;
+	private List<MultipartFile> fileNames;
 	private String upDir;
 	
 	
@@ -87,12 +87,13 @@ public class Product {
 	}
 	
 	// Spring Framework FileUpload ¸¦ À§ÇÑ Getter/Setter Method
-	public List<MultipartFile> getFiles() {
-		return files;
+	///*
+	public List<MultipartFile> getFileNames() {
+		return fileNames;
 	}
 	
-	public void setFiles(List<MultipartFile> files) {
-		this.files = files;
+	public void setFileNames(List<MultipartFile> fileNames) {
+		this.fileNames = fileNames;
 	}
 	
 	public String getUpDir() {
@@ -102,13 +103,15 @@ public class Product {
 	public void setUpDir(String upDir) {
 		this.upDir = upDir;
 	}	
-	
+	//*/
 
 	@Override
 	public String toString() {
 		return "ProductVO [fileName=" + fileName + ", manuDate=" + manuDate + ", price=" + price + ", prodDetail="
 				+ prodDetail + ", prodName=" + prodName + ", prodNo=" + prodNo + ", regDate=" + regDate
-				+ ", proTranCode=" + proTranCode + ", files=" + files + ", upDir=" + upDir + "]";
+				+ ", proTranCode=" + proTranCode 
+//				+ ", fileNames=" + fileNames + ", upDir=" + upDir 
+				+ "]";
 	}
 
 	
