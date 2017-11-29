@@ -127,7 +127,12 @@ function fncHighPrice(currentPage) {
 			<td align="center">${ i }</td>
 			<td></td>
 			<td align="left">
-				<a href="/product/getProduct?prodNo=${ product.prodNo }&menu=${ menu }">${ product.prodName }</a>
+				<c:if test = "${ product.proTranCode == null }">
+					<a href="/product/getProduct?prodNo=${ product.prodNo }&menu=${ menu }">${ product.prodName }</a>
+				</c:if>
+				<c:if test = "${ product.proTranCode != null }">
+					${ product.prodName }
+				</c:if>
 			</td>
 			<td></td>
 			<td align="left">${ product.price }</td>
